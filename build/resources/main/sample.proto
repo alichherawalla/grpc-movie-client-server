@@ -51,6 +51,13 @@ service Sample {
   rpc RouteChat(stream RouteNote) returns (stream RouteNote) {}
 }
 
+service Messaging {
+  rpc sendUserMessage(UserMessage) returns (UserMessage) {}
+
+  rpc listUserMessages(ListMessagesRequest) returns (stream UserMessage) {}
+
+}
+
 // Points are represented as latitude-longitude pairs in the E7 representation
 // (degrees multiplied by 10**7 and rounded to the nearest integer).
 // Latitudes should be in the range +/- 90 degrees and longitude should be in
@@ -112,4 +119,18 @@ message RouteSummary {
 
   // The duration of the traversal in seconds.
   int32 elapsed_time = 4;
+}
+
+
+message UserMessage {
+  string username = 1;
+  string text_message = 2;
+  int64 id = 3;
+  string topic = 4;
+}
+
+message ListMessagesRequest {
+  int64 current_id = 1;
+  int32 max_page_size = 2;
+  string topic = 3;
 }

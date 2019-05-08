@@ -18,6 +18,8 @@ package com.betasolutions.grpc.sample;
 
 import com.betasolutions.grpc.sample.SampleGrpc.SampleBlockingStub;
 import com.betasolutions.grpc.sample.SampleGrpc.SampleStub;
+import com.betasolutions.grpc.sample.MessagingGrpc.MessagingBlockingStub;
+import com.betasolutions.grpc.sample.MessagingGrpc.MessagingStub;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.protobuf.Message;
 import io.grpc.ManagedChannel;
@@ -43,6 +45,7 @@ public class SampleClient {
 
   private final ManagedChannel channel;
   private final SampleBlockingStub blockingStub;
+  private final MessagingBlockingStub messagingBlockingStub;
   private final SampleStub asyncStub;
 
   private Random random = new Random();
@@ -57,6 +60,7 @@ public class SampleClient {
   public SampleClient(ManagedChannelBuilder<?> channelBuilder) {
     channel = channelBuilder.build();
     blockingStub = SampleGrpc.newBlockingStub(channel);
+    messagingBlockingStub = MessagingGrpc.newBlockingStub(channel);
     asyncStub = SampleGrpc.newStub(channel);
   }
 
@@ -68,15 +72,14 @@ public class SampleClient {
    * Blocking unary call example.  Calls getFeature and prints the response.
    */
   public void getFeature(int lat, int lon) {
-    info("*** GetFeature: lat={0} lon={1}", lat, lon);
 
-    Point request = Point.newBuilder().setLatitude(lat).setLongitude(lon).build();
+    UserMessage request = UserMessage.newBuilder().setTopic("mac-client").setUsername("mac").setTextMessage("text").build();
 
-    Feature feature;
+    UserMessage userMessage;
     try {
-      feature = blockingStub.getFeature(request);
+      userMessage = messagingBlockingStub.sendUserMessage(request);
       if (testHelper != null) {
-        testHelper.onMessage(feature);
+        testHelper.onMessage(userMessage);
       }
     } catch (StatusRuntimeException e) {
       warning("RPC failed: {0}", e.getStatus());
@@ -85,16 +88,6 @@ public class SampleClient {
       }
       return;
     }
-    if (SampleUtil.exists(feature)) {
-      info("Found feature called \"{0}\" at {1}, {2}",
-          feature.getName(),
-          SampleUtil.getLatitude(feature.getLocation()),
-          SampleUtil.getLongitude(feature.getLocation()));
-    } else {
-      info("Found no feature at {0}, {1}",
-          SampleUtil.getLatitude(feature.getLocation()),
-          SampleUtil.getLongitude(feature.getLocation()));
-    }
   }
 
   /**
@@ -102,21 +95,19 @@ public class SampleClient {
    * response feature as it arrives.
    */
   public void listFeatures(int lowLat, int lowLon, int hiLat, int hiLon) {
-    info("*** ListFeatures: lowLat={0} lowLon={1} hiLat={2} hiLon={3}", lowLat, lowLon, hiLat,
-        hiLon);
-
-    Rectangle request =
-        Rectangle.newBuilder()
-            .setLo(Point.newBuilder().setLatitude(lowLat).setLongitude(lowLon).build())
-            .setHi(Point.newBuilder().setLatitude(hiLat).setLongitude(hiLon).build()).build();
-    Iterator<Feature> features;
+    ListMessagesRequest request = ListMessagesRequest.newBuilder()
+        .setCurrentId(0)
+        .setMaxPageSize(100)
+        .setTopic("mac-client")
+        .build();
+    Iterator<UserMessage> messages;
     try {
-      features = blockingStub.listFeatures(request);
-      for (int i = 1; features.hasNext(); i++) {
-        Feature feature = features.next();
-        info("Result #" + i + ": {0}", feature);
+      messages = messagingBlockingStub.listUserMessages(request);
+      for (int i = 1; messages.hasNext(); i++) {
+        UserMessage message = messages.next();
+        info("Result #" + i + ": {0}", message);
         if (testHelper != null) {
-          testHelper.onMessage(feature);
+          testHelper.onMessage(message);
         }
       }
     } catch (StatusRuntimeException e) {
@@ -261,15 +252,16 @@ public class SampleClient {
 
     SampleClient client = new SampleClient("localhost", 8980);
     try {
-      // Looking for a valid feature
+      /*// Looking for a valid feature
       client.getFeature(409146138, -746188906);
 
       // Feature missing.
       client.getFeature(0, 0);
 
-      // Looking for features between 40, -75 and 42, -73.
+      // Looking for features between 40, -75 and 42, -73.*/
+      client.getFeature(409146138, -746188906);
       client.listFeatures(400000000, -750000000, 420000000, -730000000);
-
+/*
       // Record a few randomly selected points from the features file.
       client.recordRoute(features, 10);
 
@@ -278,7 +270,7 @@ public class SampleClient {
 
       if (!finishLatch.await(1, TimeUnit.MINUTES)) {
         client.warning("routeChat can not finish within 1 minutes");
-      }
+      }*/
     } finally {
       client.shutdown();
     }
