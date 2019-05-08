@@ -24,3 +24,8 @@
 **Run Container**
 
 `docker run -p 8080:8080 envoy:grpc`
+
+
+**CLEAN AND BUILD SERVER**
+
+`./gradlew installDist && protoc --proto_path=src --java_out=build/generated/source/proto/main/java src/main/proto/sample.proto &&  ./build/install/gRPCBase/bin/sample-server`

@@ -122,7 +122,7 @@ public class SampleServer {
                 .setUsername(request.getUsername())
                 .setTextMessage(request.getTextMessage())
                 .setTopic(request.getTopic())
-                .setId(topicalUserMessages.size())
+                .setId(topicalUserMessages.size() + 1)
                 .build();
             topicalUserMessages.add(userMessage);
             Set<StreamObserver<UserMessage>> topicalUserMessageObservers = getTopicalUserMessageObservers(userMessage.getTopic());
@@ -152,8 +152,8 @@ public class SampleServer {
             topicalUserMessageObservers.add(responseObserver);
             USER_MESSAGE_OBSERVERS.put(topic, topicalUserMessageObservers);
             ArrayList<UserMessage> topicalUserMessages = getTopicalUserMessages(request.getTopic());
-            long nextId = request.getCurrentId() + 1;
-            long size = Math.max(topicalUserMessages.size() - 1, 0);
+            long nextId = request.getCurrentId();
+            long size = Math.max(topicalUserMessages.size(), 0);
             long startIndex = Math.min(size, Math.max(size - request.getMaxPageSize(), nextId));
             logger.info("startIndex = " + startIndex + " size: " + size + " currentId: " + nextId);
             if (size == 0 || nextId > size) {

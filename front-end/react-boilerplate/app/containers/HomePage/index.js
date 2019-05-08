@@ -98,7 +98,7 @@ export default class HomePage extends React.Component {
     if (topicName && !topicLists[topicName]) {
       updatedTopicLists = {...topicLists};
       updatedTopicLists[topicName] = id;
-      console.log(updatedTopicLists)
+      console.log('**********************id:' + id);
       this.setState({topicLists: updatedTopicLists});
       shouldInitStream && this.initStream(topicName);
     }
@@ -127,8 +127,7 @@ export default class HomePage extends React.Component {
     listUserMessagesRequest.setMaxPageSize(100);
     listUserMessagesRequest.setCurrentId(id);
     listUserMessagesRequest.setTopic(topic);
-    console.log(listUserMessagesRequest);
-    console.log({id, topic});
+    console.log('**********************id: ' + id);
     return listUserMessagesRequest;
   };
 
