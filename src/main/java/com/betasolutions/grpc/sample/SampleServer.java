@@ -117,7 +117,8 @@ public class SampleServer {
 
         @Override
         public void sendUserMessage(UserMessage request, StreamObserver<UserMessage> responseObserver) {
-            ArrayList<UserMessage> topicalUserMessages = getTopicalUserMessages(request.getTopic());
+            String topic = request.getTopic();
+            ArrayList<UserMessage> topicalUserMessages = getTopicalUserMessages(topic);
             UserMessage userMessage = UserMessage.newBuilder()
                 .setUsername(request.getUsername())
                 .setTextMessage(request.getTextMessage())
@@ -125,7 +126,7 @@ public class SampleServer {
                 .setId(topicalUserMessages.size() + 1)
                 .build();
             topicalUserMessages.add(userMessage);
-            Set<StreamObserver<UserMessage>> topicalUserMessageObservers = getTopicalUserMessageObservers(userMessage.getTopic());
+            Set<StreamObserver<UserMessage>> topicalUserMessageObservers = getTopicalUserMessageObservers(topic);
             Set<StreamObserver<UserMessage>> toRemove = new HashSet<>();
             for (StreamObserver<UserMessage> next : topicalUserMessageObservers) {
                 try {
@@ -137,10 +138,10 @@ public class SampleServer {
                 }
             }
             for (StreamObserver<UserMessage> next : toRemove) {
-                topicalUserMessages.remove(next);
+                topicalUserMessageObservers.remove(next);
             }
-            USER_MESSAGES.put(request.getTopic(), topicalUserMessages);
-            responseObserver.onNext(request);
+            USER_MESSAGES.put(topic, topicalUserMessages);
+            responseObserver.onNext(userMessage);
             responseObserver.onCompleted();
 
         }
@@ -153,15 +154,18 @@ public class SampleServer {
             USER_MESSAGE_OBSERVERS.put(topic, topicalUserMessageObservers);
             ArrayList<UserMessage> topicalUserMessages = getTopicalUserMessages(request.getTopic());
             long nextId = request.getCurrentId();
-            long size = Math.max(topicalUserMessages.size(), 0);
-            long startIndex = Math.min(size, Math.max(size - request.getMaxPageSize(), nextId));
+            long size = topicalUserMessages.size();
+            long startIndex = Math.max(0, Math.max(Math.max(0, size - request.getMaxPageSize()), nextId));
             logger.info("startIndex = " + startIndex + " size: " + size + " currentId: " + nextId);
-            if (size == 0 || nextId > size) {
+            if (nextId == 0 && size != 0) {
+                topicalUserMessages.subList((int) startIndex, (int) size)
+                    .forEach(responseObserver::onNext);
+            } else if (size == 0 || nextId >= size) {
                 responseObserver.onNext(null);
             } else {
-                for (UserMessage userMessage : topicalUserMessages.subList((int) startIndex, (int) size)) {
-                    responseObserver.onNext(userMessage);
-                }
+                topicalUserMessages.stream()
+                    .filter(userMessage -> userMessage.getId() > nextId)
+                    .forEach(responseObserver::onNext);
             }
         }
 
