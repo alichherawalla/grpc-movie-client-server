@@ -9,9 +9,12 @@ package chat;
 
 
 service Chat {
+
+    // Bidrectional streaming rpc to allow chat between client and server
     rpc realTimeChat (stream UserMessage) returns (stream UserMessage) {
     }
 
+    // Client side streaming rpc to allow user to fetch messages from the server
     rpc listUserMessages (ListMessagesRequest) returns (stream UserMessage) {
     }
 
