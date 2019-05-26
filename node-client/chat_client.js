@@ -58,7 +58,10 @@ function startChatting(callback) {
   messageStream.on('end', (evt) => {
     console.log({evt})
   });
+  sendMessage(messageStream)
+};
 
+function sendMessage(messageStream) {
   inquirer.prompt(questions).then(answers => {
     const userMessage = new chat.UserMessage();
     userMessage.setTextMessage(answers['message']);
@@ -66,8 +69,9 @@ function startChatting(callback) {
     userMessage.setUsername(USERNAME);
     userMessage.setClientId(CLIENT_ID);
     messageStream.write(userMessage);
+    sendMessage(messageStream)
   })
-};
+}
 
 function printMessage(userMessage) {
   console.log('\n\n******Message received: username: ', userMessage.getUsername() +
