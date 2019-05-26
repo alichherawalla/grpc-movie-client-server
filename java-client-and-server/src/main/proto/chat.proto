@@ -10,7 +10,7 @@ package chat;
 
 service Chat {
 
-    // Bidrectional streaming rpc to allow chat between client and server
+    // Bidirectional streaming rpc to allow chat between client and server
     rpc realTimeChat (stream UserMessage) returns (stream UserMessage) {
     }
 
