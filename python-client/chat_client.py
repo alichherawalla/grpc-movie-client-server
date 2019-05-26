@@ -40,7 +40,6 @@ def list_messages(stub, topic):
     list_user_message_request = chat_pb2.ListMessagesRequest(current_id=0, max_page_size=MAX_PAGE_SIZE, topic=topic,
                                                              client_id=CLIENT_ID)
     messages = stub.listUserMessages(list_user_message_request)
-    print(topic)
     stream_messages(messages)
 
 
@@ -60,13 +59,11 @@ def send_message():
 def run():
     with grpc.insecure_channel('localhost:8980') as channel:
         stub = chat_pb2_grpc.ChatStub(channel)
-        print("-------------- ListMessages --------------")
         threads = []
         for topic in TOPICS:
             thread = threading.Thread(target=list_messages, args=(stub, topic), daemon=True)
             thread.start()
             threads.append(thread)
-        print("-------------- SendMessages --------------")
         start_chatting(stub)
         for thread in threads:
             thread.join()
