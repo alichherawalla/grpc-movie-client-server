@@ -1,10 +1,3 @@
-
-
-**Installation MAC OSX**
-
- 
-`brew install protobuf`
-
 **Generate stubs and Java API Client**
 
 `bash build-project.sh`
