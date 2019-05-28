@@ -1,26 +1,25 @@
-package com.betasolutions.grpc.chat;
+package com.betasolutions.grpc.movie;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
 import java.io.IOException;
-import java.net.URL;
 
-public class ChatServer {
+public class MovieServer {
 
     private int port;
     private final Server server;
     private final Logger logger;
 
-    private ChatServer(int port) throws IOException {
+    private MovieServer(int port) throws IOException {
         this(ServerBuilder.forPort(port), port);
 
     }
 
-    private ChatServer(ServerBuilder<?> serverBuilder, int port) {
-        logger = new Logger(ChatServer.class);
+    private MovieServer(ServerBuilder<?> serverBuilder, int port) {
+        logger = new Logger(MovieServer.class);
         this.port = port;
-        server = serverBuilder.addService(new ChatService()).build();
+        server = serverBuilder.addService(new MovieService()).build();
     }
 
     private void start() throws IOException {
@@ -30,7 +29,7 @@ public class ChatServer {
             @Override
             public void run() {
                 System.err.println("*** Shutting down gRPC server since JVM is shutting down");
-                ChatServer.this.stop();
+                MovieServer.this.stop();
                 System.err.println("*** Server shut down");
             }
         });
@@ -49,7 +48,7 @@ public class ChatServer {
     }
 
     public static void main(String[] args) throws Exception {
-        ChatServer chatServer = new ChatServer(8980);
+        MovieServer chatServer = new MovieServer(8980);
         chatServer.start();
         chatServer.blockUntilShutdown();
     }

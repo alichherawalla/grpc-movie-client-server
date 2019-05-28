@@ -1,4 +1,4 @@
-package com.betasolutions.grpc.chat;
+package com.betasolutions.grpc.movie;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -11,23 +11,24 @@ import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class ChatClient {
+import static com.betasolutions.grpc.movie.Constants.*;
+
+public class MovieClient {
 
     private final Logger logger;
     private final ManagedChannel channel;
-    private final ChatGrpc.ChatStub asyncChatStub;
+    private final MovieLibraryGrpc.MovieLibraryStub asyncChatStub;
     private static final String CLIENT_ID = UUID.randomUUID().toString();
-    private static final String USERNAME = "CHAT_CLIENT_JAVA";
-    private static final List<String> TOPICS = Arrays.asList("UNIVERSAL_TOPIC", "CHAT_SERVICE_CLIENT", "new topic");
+    private static final List<String> GENRES = Arrays.asList(HORROR, ACTION, THRILLER);
 
-    public ChatClient(String host, int port) {
+    public MovieClient(String host, int port) {
         this(ManagedChannelBuilder.forAddress(host, port).usePlaintext());
     }
 
-    public ChatClient(ManagedChannelBuilder<?> channelBuilder) {
+    public MovieClient(ManagedChannelBuilder<?> channelBuilder) {
         channel = channelBuilder.build();
-        asyncChatStub = ChatGrpc.newStub(channel);
-        logger = new Logger(ChatClient.class);
+        asyncChatStub = MovieLibraryGrpc.newStub(channel);
+        logger = new Logger(MovieClient.class);
     }
 
     public void shutdown() throws InterruptedException {
@@ -35,19 +36,19 @@ public class ChatClient {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
-    public void listMessages(int currentId, int maxPageSize, String topic) {
-        ListMessagesRequest request = ListMessagesRequest.newBuilder()
+    public void listMessages(int currentId, int maxPageSize, String genre) {
+        ListMoviesRequest request = ListMoviesRequest.newBuilder()
             .setCurrentId(currentId)
             .setMaxPageSize(maxPageSize)
-            .setTopic(topic)
+            .setGenre(genre)
             .setClientId(CLIENT_ID)
             .build();
 
         try {
-            asyncChatStub.listUserMessages(request, new StreamObserver<UserMessage>() {
+            asyncChatStub.listMovies(request, new StreamObserver<Movie>() {
                 @Override
-                public void onNext(UserMessage message) {
-                    System.out.println("\n\n*****Message received: " + message);
+                public void onNext(Movie movie) {
+                    System.out.println("\n\n*****Movie received:\n" + movie);
                 }
 
                 @Override
@@ -68,10 +69,10 @@ public class ChatClient {
 
     public void startChatting() {
         try {
-            StreamObserver<UserMessage> requestObserver = asyncChatStub.realTimeChat(new StreamObserver<UserMessage>() {
+            StreamObserver<Movie> requestObserver = asyncChatStub.getAndUpdateMovieLibrary(new StreamObserver<Movie>() {
                 @Override
-                public void onNext(UserMessage userMessage) {
-                    System.out.println("\n\n*****Message received\n" + userMessage);
+                public void onNext(Movie movie) {
+                    System.out.println("\n\n*****Message received\n" + movie);
                 }
 
                 @Override
@@ -87,17 +88,16 @@ public class ChatClient {
 
             while (true) {
                 Scanner scanner = new Scanner(System.in);
-                System.out.println("Please enter the topicName: ");
-                String topic = scanner.nextLine();
-                System.out.println("Please enter the message: ");
-                String textMessage = scanner.nextLine();
-                UserMessage userMessage = UserMessage.newBuilder()
-                    .setTextMessage(textMessage)
-                    .setTopic(topic)
-                    .setUsername(USERNAME)
+                System.out.println("Please enter the genre: ");
+                String genre = scanner.nextLine();
+                System.out.println("Please enter the name of the movie: ");
+                String movieName = scanner.nextLine();
+                Movie movie = Movie.newBuilder()
+                    .setGenre(genre)
+                    .setMovieName(movieName)
                     .setClientId(CLIENT_ID)
                     .build();
-                requestObserver.onNext(userMessage);
+                requestObserver.onNext(movie);
             }
 
 
@@ -107,17 +107,17 @@ public class ChatClient {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        ChatClient chatClient = new ChatClient("localhost", 8980);
+        MovieClient chatClient = new MovieClient("localhost", 8980);
         System.out.println("CLIENT_ID: " + CLIENT_ID);
         try {
-            TOPICS.forEach(topic -> {
+            GENRES.forEach(topic -> {
                 chatClient.listMessages(0, 100, topic);
             });
             chatClient.startChatting();
 
         } catch (Exception e) {
             e.printStackTrace();
-            new Logger(ChatClient.class).warning("shutting down {0}", (Object) e.getStackTrace());
+            new Logger(MovieClient.class).warning("shutting down {0}", (Object) e.getStackTrace());
         } finally {
             chatClient.shutdown();
         }

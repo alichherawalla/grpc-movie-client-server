@@ -1,3 +1,3 @@
 bash build-project.sh
-./build/install/java-client-and-server/bin/chat-client
+./build/install/java-client-and-server/bin/movie-client
 

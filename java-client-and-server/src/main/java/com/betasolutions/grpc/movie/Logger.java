@@ -1,4 +1,4 @@
-package com.betasolutions.grpc.chat;
+package com.betasolutions.grpc.movie;
 
 import java.util.logging.Level;
 

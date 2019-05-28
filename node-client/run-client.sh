@@ -1,1 +1,1 @@
-node chat_client.js
+node movie_client.js

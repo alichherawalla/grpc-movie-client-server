@@ -64,22 +64,22 @@ sourceSets {
 
 startScripts.enabled = false
 
-task chatServer(type: CreateStartScripts) {
-    mainClassName = 'com.betasolutions.grpc.chat.ChatServer'
-    applicationName = 'chat-server'
+task movieServer(type: CreateStartScripts) {
+    mainClassName = 'com.betasolutions.grpc.movie.MovieServer'
+    applicationName = 'movie-server'
     outputDir = new File(project.buildDir, 'tmp')
     classpath = startScripts.classpath
 }
 
-task chatClient(type: CreateStartScripts) {
-    mainClassName = 'com.betasolutions.grpc.chat.ChatClient'
-    applicationName = 'chat-client'
+task movieClient(type: CreateStartScripts) {
+    mainClassName = 'com.betasolutions.grpc.movie.MovieClient'
+    applicationName = 'movie-client'
     outputDir = new File(project.buildDir, 'tmp')
     classpath = startScripts.classpath
 }
 
 applicationDistribution.into('bin') {
-    from(chatServer)
-    from(chatClient)
+    from(movieServer)
+    from(movieClient)
     fileMode = 0755
 }
