@@ -62,8 +62,8 @@ proto.movie.Movie.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, 0),
     movieName: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    genre: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    clientId: jspb.Message.getFieldWithDefault(msg, 5, "")
+    genre: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    clientId: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -108,11 +108,11 @@ proto.movie.Movie.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {string} */ (reader.readString());
       msg.setMovieName(value);
       break;
-    case 4:
+    case 3:
       var value = /** @type {string} */ (reader.readString());
       msg.setGenre(value);
       break;
-    case 5:
+    case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setClientId(value);
       break;
@@ -162,14 +162,14 @@ proto.movie.Movie.serializeBinaryToWriter = function(message, writer) {
   f = message.getGenre();
   if (f.length > 0) {
     writer.writeString(
-      4,
+      3,
       f
     );
   }
   f = message.getClientId();
   if (f.length > 0) {
     writer.writeString(
-      5,
+      4,
       f
     );
   }
@@ -207,32 +207,32 @@ proto.movie.Movie.prototype.setMovieName = function(value) {
 
 
 /**
- * optional string genre = 4;
+ * optional string genre = 3;
  * @return {string}
  */
 proto.movie.Movie.prototype.getGenre = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
 proto.movie.Movie.prototype.setGenre = function(value) {
-  jspb.Message.setProto3StringField(this, 4, value);
+  jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
 /**
- * optional string client_id = 5;
+ * optional string client_id = 4;
  * @return {string}
  */
 proto.movie.Movie.prototype.getClientId = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /** @param {string} value */
 proto.movie.Movie.prototype.setClientId = function(value) {
-  jspb.Message.setProto3StringField(this, 5, value);
+  jspb.Message.setProto3StringField(this, 4, value);
 };
 
 

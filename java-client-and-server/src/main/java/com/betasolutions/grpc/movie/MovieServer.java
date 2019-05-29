@@ -48,9 +48,9 @@ public class MovieServer {
     }
 
     public static void main(String[] args) throws Exception {
-        MovieServer chatServer = new MovieServer(8980);
-        chatServer.start();
-        chatServer.blockUntilShutdown();
+        MovieServer movieServer = new MovieServer(8980);
+        movieServer.start();
+        movieServer.blockUntilShutdown();
     }
 
 }

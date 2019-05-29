@@ -17,26 +17,26 @@ public class MovieClient {
 
     private final Logger logger;
     private final ManagedChannel channel;
-    private final MovieLibraryGrpc.MovieLibraryStub asyncChatStub;
+    private final MovieLibraryGrpc.MovieLibraryStub asyncMovieLibraryStub;
     private static final String CLIENT_ID = UUID.randomUUID().toString();
     private static final List<String> GENRES = Arrays.asList(HORROR, ACTION, THRILLER);
 
-    public MovieClient(String host, int port) {
+    private MovieClient(String host, int port) {
         this(ManagedChannelBuilder.forAddress(host, port).usePlaintext());
     }
 
-    public MovieClient(ManagedChannelBuilder<?> channelBuilder) {
+    private MovieClient(ManagedChannelBuilder<?> channelBuilder) {
         channel = channelBuilder.build();
-        asyncChatStub = MovieLibraryGrpc.newStub(channel);
+        asyncMovieLibraryStub = MovieLibraryGrpc.newStub(channel);
         logger = new Logger(MovieClient.class);
     }
 
-    public void shutdown() throws InterruptedException {
+    private void shutdown() throws InterruptedException {
         logger.warning("Shutting down client");
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
-    public void listMessages(int currentId, int maxPageSize, String genre) {
+    private void listMessages(int currentId, int maxPageSize, String genre) {
         ListMoviesRequest request = ListMoviesRequest.newBuilder()
             .setCurrentId(currentId)
             .setMaxPageSize(maxPageSize)
@@ -45,7 +45,7 @@ public class MovieClient {
             .build();
 
         try {
-            asyncChatStub.listMovies(request, new StreamObserver<Movie>() {
+            asyncMovieLibraryStub.listMovies(request, new StreamObserver<Movie>() {
                 @Override
                 public void onNext(Movie movie) {
                     System.out.println("\n\n*****Movie received:\n" + movie);
@@ -67,9 +67,9 @@ public class MovieClient {
         }
     }
 
-    public void startChatting() {
+    public void getAndUpdateMovieLibrary() {
         try {
-            StreamObserver<Movie> requestObserver = asyncChatStub.getAndUpdateMovieLibrary(new StreamObserver<Movie>() {
+            StreamObserver<Movie> requestObserver = asyncMovieLibraryStub.getAndUpdateMovieLibrary(new StreamObserver<Movie>() {
                 @Override
                 public void onNext(Movie movie) {
                     System.out.println("\n\n*****Message received\n" + movie);
@@ -107,19 +107,19 @@ public class MovieClient {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        MovieClient chatClient = new MovieClient("localhost", 8980);
+        MovieClient movieClient = new MovieClient("localhost", 8980);
         System.out.println("CLIENT_ID: " + CLIENT_ID);
         try {
             GENRES.forEach(topic -> {
-                chatClient.listMessages(0, 100, topic);
+                movieClient.listMessages(0, 100, topic);
             });
-            chatClient.startChatting();
+            movieClient.getAndUpdateMovieLibrary();
 
         } catch (Exception e) {
             e.printStackTrace();
             new Logger(MovieClient.class).warning("shutting down {0}", (Object) e.getStackTrace());
         } finally {
-            chatClient.shutdown();
+            movieClient.shutdown();
         }
     }
 }

@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='movie',
   syntax='proto3',
   serialized_options=_b('\n\034com.betasolutions.grpc.movieB\nMovieProtoP\001\242\002\003RTG'),
-  serialized_pb=_b('\n\x0bmovie.proto\x12\x05movie\"I\n\x05Movie\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x12\n\nmovie_name\x18\x02 \x01(\t\x12\r\n\x05genre\x18\x04 \x01(\t\x12\x11\n\tclient_id\x18\x05 \x01(\t\"`\n\x11ListMoviesRequest\x12\x12\n\ncurrent_id\x18\x01 \x01(\x03\x12\x15\n\rmax_page_size\x18\x02 \x01(\x05\x12\r\n\x05genre\x18\x03 \x01(\t\x12\x11\n\tclient_id\x18\x04 \x01(\t2\x86\x01\n\x0cMovieLibrary\x12<\n\x18getAndUpdateMovieLibrary\x12\x0c.movie.Movie\x1a\x0c.movie.Movie\"\x00(\x01\x30\x01\x12\x38\n\nlistMovies\x12\x18.movie.ListMoviesRequest\x1a\x0c.movie.Movie\"\x00\x30\x01\x42\x32\n\x1c\x63om.betasolutions.grpc.movieB\nMovieProtoP\x01\xa2\x02\x03RTGb\x06proto3')
+  serialized_pb=_b('\n\x0bmovie.proto\x12\x05movie\"I\n\x05Movie\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x12\n\nmovie_name\x18\x02 \x01(\t\x12\r\n\x05genre\x18\x03 \x01(\t\x12\x11\n\tclient_id\x18\x04 \x01(\t\"`\n\x11ListMoviesRequest\x12\x12\n\ncurrent_id\x18\x01 \x01(\x03\x12\x15\n\rmax_page_size\x18\x02 \x01(\x05\x12\r\n\x05genre\x18\x03 \x01(\t\x12\x11\n\tclient_id\x18\x04 \x01(\t2\x86\x01\n\x0cMovieLibrary\x12<\n\x18getAndUpdateMovieLibrary\x12\x0c.movie.Movie\x1a\x0c.movie.Movie\"\x00(\x01\x30\x01\x12\x38\n\nlistMovies\x12\x18.movie.ListMoviesRequest\x1a\x0c.movie.Movie\"\x00\x30\x01\x42\x32\n\x1c\x63om.betasolutions.grpc.movieB\nMovieProtoP\x01\xa2\x02\x03RTGb\x06proto3')
 )
 
 
@@ -49,14 +49,14 @@ _MOVIE = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='genre', full_name='movie.Movie.genre', index=2,
-      number=4, type=9, cpp_type=9, label=1,
+      number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='client_id', full_name='movie.Movie.client_id', index=3,
-      number=5, type=9, cpp_type=9, label=1,
+      number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,

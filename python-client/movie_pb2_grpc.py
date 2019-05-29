@@ -38,7 +38,7 @@ class MovieLibraryServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def listMovies(self, request, context):
-    """Client side streaming rpc to allow user to fetch movies from the server
+    """server side streaming rpc to allow user to fetch movies from the server
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')

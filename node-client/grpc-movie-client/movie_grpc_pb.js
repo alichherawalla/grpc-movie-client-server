@@ -40,7 +40,7 @@ var MovieLibraryService = exports.MovieLibraryService = {
     responseSerialize: serialize_movie_Movie,
     responseDeserialize: deserialize_movie_Movie,
   },
-  // Client side streaming rpc to allow user to fetch movies from the server
+  // server side streaming rpc to allow user to fetch movies from the server
   listMovies: {
     path: '/movie.MovieLibrary/listMovies',
     requestStream: false,

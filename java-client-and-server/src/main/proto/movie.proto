@@ -14,7 +14,7 @@ service MovieLibrary {
     rpc getAndUpdateMovieLibrary (stream Movie) returns (stream Movie) {
     }
 
-    // Client side streaming rpc to allow user to fetch movies from the server
+    // server side streaming rpc to allow user to fetch movies from the server
     rpc listMovies (ListMoviesRequest) returns (stream Movie) {
     }
 
@@ -22,8 +22,8 @@ service MovieLibrary {
 message Movie {
     int64 id = 1;
     string movie_name = 2;
-    string genre = 4;
-    string client_id = 5;
+    string genre = 3;
+    string client_id = 4;
 }
 
 message ListMoviesRequest {
