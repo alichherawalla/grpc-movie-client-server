@@ -56,13 +56,13 @@ private static final long serialVersionUID = 0L;
             movieName_ = s;
             break;
           }
-          case 34: {
+          case 26: {
             java.lang.String s = input.readStringRequireUtf8();
 
             genre_ = s;
             break;
           }
-          case 42: {
+          case 34: {
             java.lang.String s = input.readStringRequireUtf8();
 
             clientId_ = s;
@@ -143,10 +143,10 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int GENRE_FIELD_NUMBER = 4;
+  public static final int GENRE_FIELD_NUMBER = 3;
   private volatile java.lang.Object genre_;
   /**
-   * <code>string genre = 4;</code>
+   * <code>string genre = 3;</code>
    */
   public java.lang.String getGenre() {
     java.lang.Object ref = genre_;
@@ -161,7 +161,7 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <code>string genre = 4;</code>
+   * <code>string genre = 3;</code>
    */
   public com.google.protobuf.ByteString
       getGenreBytes() {
@@ -177,10 +177,10 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int CLIENT_ID_FIELD_NUMBER = 5;
+  public static final int CLIENT_ID_FIELD_NUMBER = 4;
   private volatile java.lang.Object clientId_;
   /**
-   * <code>string client_id = 5;</code>
+   * <code>string client_id = 4;</code>
    */
   public java.lang.String getClientId() {
     java.lang.Object ref = clientId_;
@@ -195,7 +195,7 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <code>string client_id = 5;</code>
+   * <code>string client_id = 4;</code>
    */
   public com.google.protobuf.ByteString
       getClientIdBytes() {
@@ -232,10 +232,10 @@ private static final long serialVersionUID = 0L;
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, movieName_);
     }
     if (!getGenreBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, genre_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, genre_);
     }
     if (!getClientIdBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, clientId_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, clientId_);
     }
     unknownFields.writeTo(output);
   }
@@ -254,10 +254,10 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, movieName_);
     }
     if (!getGenreBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, genre_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, genre_);
     }
     if (!getClientIdBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, clientId_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, clientId_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -662,7 +662,7 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object genre_ = "";
     /**
-     * <code>string genre = 4;</code>
+     * <code>string genre = 3;</code>
      */
     public java.lang.String getGenre() {
       java.lang.Object ref = genre_;
@@ -677,7 +677,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string genre = 4;</code>
+     * <code>string genre = 3;</code>
      */
     public com.google.protobuf.ByteString
         getGenreBytes() {
@@ -693,7 +693,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string genre = 4;</code>
+     * <code>string genre = 3;</code>
      */
     public Builder setGenre(
         java.lang.String value) {
@@ -706,7 +706,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>string genre = 4;</code>
+     * <code>string genre = 3;</code>
      */
     public Builder clearGenre() {
       
@@ -715,7 +715,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>string genre = 4;</code>
+     * <code>string genre = 3;</code>
      */
     public Builder setGenreBytes(
         com.google.protobuf.ByteString value) {
@@ -731,7 +731,7 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object clientId_ = "";
     /**
-     * <code>string client_id = 5;</code>
+     * <code>string client_id = 4;</code>
      */
     public java.lang.String getClientId() {
       java.lang.Object ref = clientId_;
@@ -746,7 +746,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string client_id = 5;</code>
+     * <code>string client_id = 4;</code>
      */
     public com.google.protobuf.ByteString
         getClientIdBytes() {
@@ -762,7 +762,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string client_id = 5;</code>
+     * <code>string client_id = 4;</code>
      */
     public Builder setClientId(
         java.lang.String value) {
@@ -775,7 +775,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>string client_id = 5;</code>
+     * <code>string client_id = 4;</code>
      */
     public Builder clearClientId() {
       
@@ -784,7 +784,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>string client_id = 5;</code>
+     * <code>string client_id = 4;</code>
      */
     public Builder setClientIdBytes(
         com.google.protobuf.ByteString value) {

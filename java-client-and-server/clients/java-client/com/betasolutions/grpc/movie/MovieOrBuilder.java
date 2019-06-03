@@ -23,21 +23,21 @@ public interface MovieOrBuilder extends
       getMovieNameBytes();
 
   /**
-   * <code>string genre = 4;</code>
+   * <code>string genre = 3;</code>
    */
   java.lang.String getGenre();
   /**
-   * <code>string genre = 4;</code>
+   * <code>string genre = 3;</code>
    */
   com.google.protobuf.ByteString
       getGenreBytes();
 
   /**
-   * <code>string client_id = 5;</code>
+   * <code>string client_id = 4;</code>
    */
   java.lang.String getClientId();
   /**
-   * <code>string client_id = 5;</code>
+   * <code>string client_id = 4;</code>
    */
   com.google.protobuf.ByteString
       getClientIdBytes();

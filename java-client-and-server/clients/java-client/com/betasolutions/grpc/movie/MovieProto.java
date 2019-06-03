@@ -35,7 +35,7 @@ public final class MovieProto {
     java.lang.String[] descriptorData = {
       "\n\026main/proto/movie.proto\022\005movie\"I\n\005Movie" +
       "\022\n\n\002id\030\001 \001(\003\022\022\n\nmovie_name\030\002 \001(\t\022\r\n\005genr" +
-      "e\030\004 \001(\t\022\021\n\tclient_id\030\005 \001(\t\"`\n\021ListMovies" +
+      "e\030\003 \001(\t\022\021\n\tclient_id\030\004 \001(\t\"`\n\021ListMovies" +
       "Request\022\022\n\ncurrent_id\030\001 \001(\003\022\025\n\rmax_page_" +
       "size\030\002 \001(\005\022\r\n\005genre\030\003 \001(\t\022\021\n\tclient_id\030\004" +
       " \001(\t2\206\001\n\014MovieLibrary\022<\n\030getAndUpdateMov" +
